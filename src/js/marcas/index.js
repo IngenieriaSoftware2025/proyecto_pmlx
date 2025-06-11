@@ -306,18 +306,6 @@ const ModificarMarca = async (event) => {
 const EliminarMarca = async (e) => {
     const idMarca = e.currentTarget.dataset.id
     const nombreMarca = e.currentTarget.dataset.nombre
-    const modelosAsignados = e.currentTarget.dataset.modelos
-
-    if (parseInt(modelosAsignados) > 0) {
-        await Swal.fire({
-            position: "center",
-            icon: "warning",
-            title: "No se puede eliminar",
-            text: `La marca "${nombreMarca}" tiene ${modelosAsignados} modelo(s) registrado(s). Debe eliminar los modelos antes de eliminar la marca.`,
-            showConfirmButton: true,
-        });
-        return;
-    }
 
     const AlertaConfirmarEliminar = await Swal.fire({
         position: "center",
@@ -333,13 +321,22 @@ const EliminarMarca = async (e) => {
 
     if (AlertaConfirmarEliminar.isConfirmed) {
         const url = `/proyecto_pmlx/marcas/eliminar?id=${idMarca}`;
+        console.log('URL de eliminación:', url); // Debug
+        
         const config = {
             method: 'GET'
         }
 
         try {
             const consulta = await fetch(url, config);
-            const respuesta = await consulta.json();
+            console.log('Status de respuesta:', consulta.status); // Debug
+            
+            const textoRespuesta = await consulta.text();
+            console.log('Respuesta cruda:', textoRespuesta); // Debug
+            
+            const respuesta = JSON.parse(textoRespuesta);
+            console.log('Respuesta parseada:', respuesta); // Debug
+            
             const { codigo, mensaje } = respuesta;
 
             if (codigo == 1) {
@@ -363,7 +360,14 @@ const EliminarMarca = async (e) => {
             }
 
         } catch (error) {
-            console.log(error)
+            console.log('Error completo:', error);
+            await Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Error de conexión",
+                text: "No se pudo conectar con el servidor",
+                showConfirmButton: true,
+            });
         }
     }
 }

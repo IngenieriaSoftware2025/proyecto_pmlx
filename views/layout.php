@@ -38,7 +38,22 @@
                      <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/marcas"><i class="bi bi-house-fill me-2"></i>Marcas</a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/modelos"><i class="bi bi-house-fill me-2"></i>Modelos</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/clientes"><i class="bi bi-house-fill me-2"></i>clientes</a>
+                    </li>
+
+                     <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/inventario"><i class="bi bi-house-fill me-2"></i>Inventario</a>
+                    </li>
   
+  
+  
+
                     <div class="nav-item dropdown " >
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                             <i class="bi bi-gear me-2"></i>Dropdown

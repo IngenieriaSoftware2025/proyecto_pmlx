@@ -14,7 +14,6 @@ class MarcaController extends ActiveRecord{
 
     //Guardar Marcas
     public static function guardarAPI(){
-        getHeadersApi();
 
         $_POST['nombre_marca'] = htmlspecialchars($_POST['nombre_marca']);
         $cantidad_nombre = strlen($_POST['nombre_marca']);
@@ -50,7 +49,7 @@ class MarcaController extends ActiveRecord{
                 'nombre_marca' => $_POST['nombre_marca'],
                 'descripcion' => $_POST['descripcion'],
                 'activo' => 'T',
-                'usuario_creacion' => 1 // Por ahora usamos el usuario admin, después se puede cambiar por sesión
+                'usuario_creacion' => 1 
             ]);
 
             $crear = $data->crear();
@@ -100,8 +99,7 @@ class MarcaController extends ActiveRecord{
 
     //Modificar Marcas
     public static function modificarAPI(){
-        getHeadersApi();
-
+        
         $id = $_POST['id_marca'];
 
         $_POST['nombre_marca'] = htmlspecialchars($_POST['nombre_marca']);
@@ -177,32 +175,7 @@ class MarcaController extends ActiveRecord{
                 return;
             }
 
-            // Verificar si hay modelos asignados a esta marca
-            $modelos_asignados = self::ModelosAsignadosMarca($id);
             
-            if ($modelos_asignados > 0) {
-                http_response_code(400);
-                echo json_encode([
-                    'codigo' => 0,
-                    'mensaje' => 'No se puede eliminar la marca porque tiene modelos registrados',
-                    'detalle' => "Hay $modelos_asignados modelo(s) registrado(s) para esta marca. Debe eliminar los modelos antes de eliminar la marca."
-                ]);
-                return;
-            }
-
-            // Verificar si hay órdenes de reparación con esta marca
-            $ordenes_reparacion = self::OrdenesReparacionMarca($id);
-            
-            if ($ordenes_reparacion > 0) {
-                http_response_code(400);
-                echo json_encode([
-                    'codigo' => 0,
-                    'mensaje' => 'No se puede eliminar la marca porque tiene órdenes de reparación asociadas',
-                    'detalle' => "Hay $ordenes_reparacion orden(es) de reparación asociada(s) a esta marca."
-                ]);
-                return;
-            }
-
             self::EliminarMarca($id, 'F');
 
             http_response_code(200);
