@@ -10,6 +10,9 @@ use Controllers\UsuarioController;
 use Controllers\ModeloController;
 use Controllers\ClienteController;
 use Controllers\InventarioController;
+use Controllers\TiposServicioController;
+use Controllers\TrabajadoresController;
+use Controllers\OrdenesReparacionController;
 
 $router = new Router();
 $router->setBaseURL('/' . $_ENV['APP_NAME']);
@@ -76,6 +79,42 @@ $router->get('/inventario/disponible', [InventarioController::class, 'inventario
 // NUEVAS RUTAS PARA MARCAS Y MODELOS DESDE INVENTARIO
 $router->get('/marcas/disponibles', [InventarioController::class, 'marcasDisponiblesAPI']);
 $router->get('/modelos/buscarAPI', [InventarioController::class, 'buscarModelosAPI']);
+
+
+// RUTAS DE TIPOS DE SERVICIO
+$router->get('/tipos_servicio', [TiposServicioController::class, 'renderizarPagina']);
+$router->post('/tipos_servicio/guardarAPI', [TiposServicioController::class, 'guardarAPI']);
+$router->get('/tipos_servicio/buscarAPI', [TiposServicioController::class, 'buscarAPI']);
+$router->post('/tipos_servicio/modificarAPI', [TiposServicioController::class, 'modificarAPI']);
+$router->get('/tipos_servicio/eliminar', [TiposServicioController::class, 'EliminarAPI']);
+$router->get('/tipos_servicio/disponibles', [TiposServicioController::class, 'serviciosDisponiblesAPI']);
+
+
+// RUTAS DE TRABAJADORES
+$router->get('/trabajadores', [TrabajadoresController::class, 'renderizarPagina']);
+$router->post('/trabajadores/guardarAPI', [TrabajadoresController::class, 'guardarAPI']);
+$router->get('/trabajadores/buscarAPI', [TrabajadoresController::class, 'buscarAPI']);
+$router->post('/trabajadores/modificarAPI', [TrabajadoresController::class, 'modificarAPI']);
+$router->get('/trabajadores/eliminar', [TrabajadoresController::class, 'EliminarAPI']);
+$router->get('/trabajadores/usuariosDisponibles', [TrabajadoresController::class, 'usuariosDisponiblesAPI']);
+$router->get('/trabajadores/todosUsuarios', [TrabajadoresController::class, 'todosUsuariosAPI']);
+$router->get('/trabajadores/disponibles', [TrabajadoresController::class, 'trabajadoresDisponiblesAPI']);
+
+
+// RUTAS DE ÓRDENES DE REPARACIÓN - AGREGAR ESTAS LÍNEAS
+$router->get('/ordenes_reparacion', [OrdenesReparacionController::class, 'renderizarPagina']);
+$router->post('/ordenes_reparacion/guardarAPI', [OrdenesReparacionController::class, 'guardarAPI']);
+$router->get('/ordenes_reparacion/buscarAPI', [OrdenesReparacionController::class, 'buscarAPI']);
+$router->post('/ordenes_reparacion/modificarAPI', [OrdenesReparacionController::class, 'modificarAPI']);
+$router->post('/ordenes_reparacion/cambiarEstadoAPI', [OrdenesReparacionController::class, 'cambiarEstadoAPI']);
+
+// ESTAS SON LAS RUTAS QUE FALTAN:
+$router->get('/ordenes_reparacion/clientesDisponiblesAPI', [OrdenesReparacionController::class, 'clientesDisponiblesAPI']);
+$router->get('/ordenes_reparacion/marcasDisponiblesAPI', [OrdenesReparacionController::class, 'marcasDisponiblesAPI']);
+$router->get('/ordenes_reparacion/trabajadoresDisponiblesAPI', [OrdenesReparacionController::class, 'trabajadoresDisponiblesAPI']);
+
+
+
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();
