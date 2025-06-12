@@ -14,6 +14,7 @@ use Controllers\TiposServicioController;
 use Controllers\TrabajadoresController;
 use Controllers\OrdenReparacionController;
 use Controllers\ServicioOrdenController;
+use Controllers\VentasController;
 
 $router = new Router();
 $router->setBaseURL('/' . $_ENV['APP_NAME']);
@@ -126,6 +127,23 @@ $router->get('/servicios_orden/ObtenerServiciosPorOrden', [ServicioOrdenControll
 $router->get('/servicios_orden/EliminarServicio', [ServicioOrdenController::class, 'EliminarServicio']);
 $router->get('/servicios_orden/ordenesDisponiblesAPI', [ServicioOrdenController::class, 'ordenesDisponiblesAPI']);
 $router->get('/servicios_orden/tiposServicioDisponiblesAPI', [ServicioOrdenController::class, 'tiposServicioDisponiblesAPI']);
+
+
+// Agregar estas rutas a tu archivo de rutas (router.php o similar)
+
+// Ventas - Página principal
+$router->get('/ventas', [VentasController::class, 'renderizarPagina']);
+
+// Ventas - APIs
+$router->post('/ventas/guardarAPI', [VentasController::class, 'guardarAPI']);
+$router->get('/ventas/buscarAPI', [VentasController::class, 'buscarAPI']);
+$router->post('/ventas/modificarAPI', [VentasController::class, 'modificarAPI']);
+$router->get('/ventas/eliminar', [VentasController::class, 'eliminarAPI']);
+
+// Ventas - APIs de datos para selects
+$router->get('/ventas/clientesDisponiblesAPI', [VentasController::class, 'clientesDisponiblesAPI']);
+$router->get('/ventas/vendedoresDisponiblesAPI', [VentasController::class, 'vendedoresDisponiblesAPI']);
+$router->get('/ventas/generarNumeroFacturaAPI', [VentasController::class, 'generarNumeroFacturaAPI']);
 
 
 
