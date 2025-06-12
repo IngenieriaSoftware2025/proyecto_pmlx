@@ -29,9 +29,9 @@
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/"><i class="bi bi-house-fill me-2"></i>Inicio</a>
                     </li>
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/usuarios"><i class="bi bi-house-fill me-2"></i>Usuarios</a>
-                    </li>
+                    </li> -->
 
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/roles"><i class="bi bi-house-fill me-2"></i>Roles</a>
@@ -45,9 +45,9 @@
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/modelos"><i class="bi bi-house-fill me-2"></i>Modelos</a>
                     </li> 
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/clientes"><i class="bi bi-house-fill me-2"></i>clientes</a>
-                    </li>
+                    </li> -->
 
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/inventario"><i class="bi bi-house-fill me-2"></i>Inventario</a>
@@ -57,13 +57,42 @@
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/tipos_servicio"><i class="bi bi-house-fill me-2"></i>Tipos de servicio</a>
                     </li>
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/trabajadores"><i class="bi bi-house-fill me-2"></i>Trabajadores</a>
-                    </li>
+                    </li> -->
 
                      <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/ordenes_reparacion"><i class="bi bi-house-fill me-2"></i>Ordenes de Reparacion </a>
                     </li>
+
+                     <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/servicios_orden"><i class="bi bi-house-fill me-2"></i>Servicios orden  </a>
+                    </li>
+
+
+                    <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-gear me-2"></i>Gestión
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" style="margin: 0;">
+                        <li>
+                            <a class="dropdown-item nav-link text-white" href="/proyecto_pmlx/trabajadores">
+                                <i class="bi bi-box-seam me-2"></i>Trabajadores
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item nav-link text-white" href="/proyecto_pmlx/usuarios">
+                                <i class="bi bi-people me-2"></i>Usuarios
+                            </a>
+                        </li>
+                         <li>
+                            <a class="dropdown-item nav-link text-white" href="/proyecto_pmlx/clientes">
+                                <i class="bi bi-people me-2"></i>Clientes
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </ul> 
 
 
                     

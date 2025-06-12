@@ -1,137 +1,443 @@
-// 🧪 TEST SIMPLE PARA CARGAR DATOS - COPIA ESTO EN LA CONSOLA
-console.log('🚀 Iniciando test simple...');
+import { Dropdown } from "bootstrap";
+import Swal from "sweetalert2";
+import { validarFormulario } from '../funciones';
+import DataTable from "datatables.net-bs5";
+import { lenguaje } from "../lenguaje";
 
-// 1. Verificar que los elementos existen
-const selectCliente = document.getElementById('id_cliente');
-const selectMarca = document.getElementById('id_marca');
-const selectTrabajador = document.getElementById('id_trabajador_asignado');
+const FormOrdenesReparacion = document.getElementById('FormOrdenesReparacion');
+const BtnGuardar = document.getElementById('BtnGuardar');
+const BtnModificar = document.getElementById('BtnModificar');
+const BtnLimpiar = document.getElementById('BtnLimpiar');
+const SelectEstado = document.getElementById('estado_orden');
+const InputFechaEntrega = document.getElementById('fecha_entrega_real');
 
-console.log('📍 Verificando elementos:');
-console.log('SelectCliente:', selectCliente ? 'EXISTE' : 'NO EXISTE');
-console.log('SelectMarca:', selectMarca ? 'EXISTE' : 'NO EXISTE');
-console.log('SelectTrabajador:', selectTrabajador ? 'EXISTE' : 'NO EXISTE');
+let datatable;
 
-// 2. Test manual básico
-if (selectCliente) {
-    selectCliente.innerHTML = `
-        <option value="">Seleccione un cliente</option>
-        <option value="1">Cliente Test 1</option>
-        <option value="2">Cliente Test 2</option>
-    `;
-    console.log('✅ SelectCliente poblado manualmente');
+const ValidarEstadoFecha = () => {
+    if (!SelectEstado || !InputFechaEntrega) return;
+    
+    const estado = SelectEstado.value;
+    
+    if (estado === 'N') { // Entregado
+        InputFechaEntrega.setAttribute('required', 'required');
+        InputFechaEntrega.closest('.col-lg-4').querySelector('.form-text').innerHTML = 'Requerido para estado "Entregado"';
+        InputFechaEntrega.closest('.col-lg-4').querySelector('.form-text').classList.add('text-danger');
+    } else {
+        InputFechaEntrega.removeAttribute('required');
+        InputFechaEntrega.closest('.col-lg-4').querySelector('.form-text').innerHTML = 'Solo cuando esté entregado';
+        InputFechaEntrega.closest('.col-lg-4').querySelector('.form-text').classList.remove('text-danger');
+    }
 }
 
-if (selectMarca) {
-    selectMarca.innerHTML = `
-        <option value="">Seleccione una marca</option>
-        <option value="1">Apple</option>
-        <option value="2">Samsung</option>
-        <option value="3">Huawei</option>
-    `;
-    console.log('✅ SelectMarca poblado manualmente');
-}
-
-if (selectTrabajador) {
-    selectTrabajador.innerHTML = `
-        <option value="">Sin asignar</option>
-        <option value="1">Técnico 1</option>
-        <option value="2">Técnico 2</option>
-    `;
-    console.log('✅ SelectTrabajador poblado manualmente');
-}
-
-// 3. Test de las URLs una por una
-async function testURL(url, descripcion) {
-    console.log(`\n🔄 Probando ${descripcion}: ${url}`);
+const CargarClientes = async () => {
     try {
-        const response = await fetch(url);
-        console.log(`📡 Status: ${response.status} ${response.statusText}`);
-        
-        if (response.ok) {
-            const data = await response.json();
-            console.log('📦 Datos:', data);
-            return data;
+        const respuesta = await fetch('http://localhost:9002/proyecto_pmlx/ordenes_reparacion/clientesDisponiblesAPI');
+        const datos = await respuesta.json();
+        const { codigo, data } = datos;
+
+        const selectCliente = document.getElementById('id_cliente');
+        if (selectCliente && codigo === 1) {
+            selectCliente.innerHTML = '<option value="">Seleccione un cliente</option>';
+            data.forEach(cliente => {
+                const option = document.createElement('option');
+                option.value = cliente.id_cliente;
+                option.textContent = `${cliente.nombre} ${cliente.nit ? '- NIT: ' + cliente.nit : ''} ${cliente.celular ? '- Tel: ' + cliente.celular : ''}`;
+                selectCliente.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.log('Error cargando clientes:', error);
+    }
+}
+
+const CargarMarcas = async () => {
+    try {
+        const respuesta = await fetch('http://localhost:9002/proyecto_pmlx/ordenes_reparacion/marcasDisponiblesAPI');
+        const datos = await respuesta.json();
+        const { codigo, data } = datos;
+
+        const selectMarca = document.getElementById('id_marca');
+        if (selectMarca && codigo === 1) {
+            selectMarca.innerHTML = '<option value="">Seleccione una marca</option>';
+            data.forEach(marca => {
+                const option = document.createElement('option');
+                option.value = marca.id_marca;
+                option.textContent = marca.nombre_marca;
+                selectMarca.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.log('Error cargando marcas:', error);
+    }
+}
+
+const CargarTrabajadores = async () => {
+    try {
+        const respuesta = await fetch('http://localhost:9002/proyecto_pmlx/ordenes_reparacion/trabajadoresDisponiblesAPI');
+        const datos = await respuesta.json();
+        const { codigo, data } = datos;
+
+        const selectTrabajador = document.getElementById('id_trabajador_asignado');
+        if (selectTrabajador && codigo === 1) {
+            selectTrabajador.innerHTML = '<option value="">Sin asignar</option>';
+            data.forEach(trabajador => {
+                const option = document.createElement('option');
+                option.value = trabajador.id_trabajador;
+                option.textContent = `${trabajador.nombre_completo} ${trabajador.especialidad ? '- ' + trabajador.especialidad : ''}`;
+                selectTrabajador.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.log('Error cargando trabajadores:', error);
+    }
+}
+
+const GuardarOrdenReparacion = async (event) => {
+    event.preventDefault();
+    BtnGuardar.disabled = true;
+
+    if (!validarFormulario(FormOrdenesReparacion, ['id_orden'])) {
+        Swal.fire({
+            position: "center",
+            icon: "info",
+            title: "FORMULARIO INCOMPLETO",
+            text: "Debe de validar todos los campos",
+            showConfirmButton: true,
+        });
+        BtnGuardar.disabled = false;
+        return;
+    }
+
+    const body = new FormData(FormOrdenesReparacion);
+
+    try {
+        const respuesta = await fetch('http://localhost:9002/proyecto_pmlx/ordenes_reparacion/guardarAPI', {
+            method: 'POST',
+            body
+        });
+        const datos = await respuesta.json();
+        const { codigo, mensaje } = datos
+
+        if (codigo == 1) {
+            await Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Éxito",
+                text: mensaje,
+                showConfirmButton: true,
+            });
+
+            limpiarTodo();
+            BuscarOrdenesReparacion();
         } else {
-            const errorText = await response.text();
-            console.error(`❌ Error: ${errorText}`);
+            await Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Error",
+                text: mensaje,
+                showConfirmButton: true,
+            });
         }
     } catch (error) {
-        console.error(`❌ Error de red: ${error.message}`);
+        console.log(error)
     }
+    BtnGuardar.disabled = false;
 }
 
-// 4. Probar las URLs principales
-async function probarURLs() {
-    console.log('\n🌐 Probando URLs del API...');
-    
-    await testURL('/ordenes_reparacion/clientesDisponiblesAPI', 'Clientes');
-    await testURL('/ordenes_reparacion/marcasDisponiblesAPI', 'Marcas');
-    await testURL('/ordenes_reparacion/trabajadoresDisponiblesAPI', 'Trabajadores');
-    
-    // Probar también con /proyecto_pmlx por si acaso
-    console.log('\n🔄 Probando con prefijo /proyecto_pmlx...');
-    await testURL('/proyecto_pmlx/ordenes_reparacion/clientesDisponiblesAPI', 'Clientes con prefijo');
-    await testURL('/proyecto_pmlx/ordenes_reparacion/marcasDisponiblesAPI', 'Marcas con prefijo');
-    await testURL('/proyecto_pmlx/ordenes_reparacion/trabajadoresDisponiblesAPI', 'Trabajadores con prefijo');
-    
-    console.log('\n🎯 Test completado. Revisa los resultados arriba.');
-}
-
-// Ejecutar tests
-probarURLs();
-
-// 5. Función para cargar datos reales si alguna URL funciona
-window.cargarDatosReales = async function(urlBase = '') {
-    console.log(`\n🔄 Intentando cargar datos reales con base: "${urlBase}"`);
-    
+const BuscarOrdenesReparacion = async () => {
     try {
-        // Cargar clientes
-        const respClientes = await fetch(`${urlBase}/ordenes_reparacion/clientesDisponiblesAPI`);
-        if (respClientes.ok) {
-            const dataClientes = await respClientes.json();
-            if (dataClientes.codigo == 1 && dataClientes.data) {
-                selectCliente.innerHTML = '<option value="">Seleccione un cliente</option>';
-                dataClientes.data.forEach(cliente => {
-                    const info = cliente.telefono ? ` - ${cliente.telefono}` : '';
-                    selectCliente.innerHTML += `<option value="${cliente.id_cliente}">${cliente.nombre}${info}</option>`;
-                });
-                console.log('✅ Clientes cargados:', dataClientes.data.length);
-            }
-        }
-        
-        // Cargar marcas
-        const respMarcas = await fetch(`${urlBase}/ordenes_reparacion/marcasDisponiblesAPI`);
-        if (respMarcas.ok) {
-            const dataMarcas = await respMarcas.json();
-            if (dataMarcas.codigo == 1 && dataMarcas.data) {
-                selectMarca.innerHTML = '<option value="">Seleccione una marca</option>';
-                dataMarcas.data.forEach(marca => {
-                    selectMarca.innerHTML += `<option value="${marca.id_marca}">${marca.nombre_marca}</option>`;
-                });
-                console.log('✅ Marcas cargadas:', dataMarcas.data.length);
-            }
-        }
-        
-        // Cargar trabajadores
-        const respTrabajadores = await fetch(`${urlBase}/ordenes_reparacion/trabajadoresDisponiblesAPI`);
-        if (respTrabajadores.ok) {
-            const dataTrabajadores = await respTrabajadores.json();
-            if (dataTrabajadores.codigo == 1 && dataTrabajadores.data) {
-                selectTrabajador.innerHTML = '<option value="">Sin asignar</option>';
-                dataTrabajadores.data.forEach(trabajador => {
-                    selectTrabajador.innerHTML += `<option value="${trabajador.id_trabajador}">${trabajador.nombre_completo} - ${trabajador.especialidad}</option>`;
-                });
-                console.log('✅ Trabajadores cargados:', dataTrabajadores.data.length);
-            }
-        }
-        
-    } catch (error) {
-        console.error('❌ Error cargando datos:', error);
-    }
-};
+        const respuesta = await fetch('http://localhost:9002/proyecto_pmlx/ordenes_reparacion/buscarAPI');
+        const datos = await respuesta.json();
+        const { codigo, mensaje, data } = datos
 
-console.log('\n💡 INSTRUCCIONES:');
-console.log('1. Los selects han sido poblados manualmente para probar');
-console.log('2. Revisa los resultados de las pruebas de URLs arriba');
-console.log('3. Si alguna URL funciona, usa: cargarDatosReales("") o cargarDatosReales("/proyecto_pmlx")');
-console.log('4. Reporta qué URL funcionó para corregir el código principal');
+        if (codigo == 1) {
+            if (datatable) {
+                datatable.clear().draw();
+                if (data && data.length > 0) {
+                    datatable.rows.add(data).draw();
+                }
+            }
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const inicializarDataTable = () => {
+    if (document.getElementById('TableOrdenesReparacion')) {
+        datatable = new DataTable('#TableOrdenesReparacion', {
+            language: lenguaje,
+            data: [],
+            columns: [
+                {
+                    title: 'No.',
+                    data: 'id_orden',
+                    render: (data, type, row, meta) => meta.row + 1
+                },
+                { 
+                    title: 'N° Orden', 
+                    data: 'numero_orden'
+                },
+                { 
+                    title: 'Cliente', 
+                    data: 'cliente_nombre'
+                },
+                { 
+                    title: 'Marca/Modelo', 
+                    data: 'nombre_marca',
+                    render: (data, type, row) => {
+                        let info = data;
+                        if (row.modelo_dispositivo) {
+                            info += `<br><small class="text-muted">${row.modelo_dispositivo}</small>`;
+                        }
+                        return info;
+                    }
+                },
+                { 
+                    title: 'Motivo', 
+                    data: 'motivo_ingreso',
+                    render: (data) => {
+                        return data.length > 30 ? data.substring(0, 30) + '...' : data;
+                    }
+                },
+                { 
+                    title: 'Estado', 
+                    data: 'estado_texto',
+                    render: (data, type, row) => {
+                        let badgeClass = 'bg-secondary';
+                        switch(row.estado_orden) {
+                            case 'R': badgeClass = 'bg-primary'; break;
+                            case 'P': badgeClass = 'bg-warning'; break;
+                            case 'E': badgeClass = 'bg-info'; break;
+                            case 'T': badgeClass = 'bg-success'; break;
+                            case 'N': badgeClass = 'bg-dark'; break;
+                            case 'C': badgeClass = 'bg-danger'; break;
+                        }
+                        return `<span class="badge ${badgeClass}">${data}</span>`;
+                    }
+                },
+                { 
+                    title: 'Técnico', 
+                    data: 'trabajador_nombre',
+                    render: (data) => data || '<span class="text-muted">Sin asignar</span>'
+                },
+                { 
+                    title: 'Fecha Recepción', 
+                    data: 'fecha_recepcion',
+                    render: (data) => {
+                        if (data) {
+                            const fecha = new Date(data);
+                            return fecha.toLocaleDateString('es-GT');
+                        }
+                        return '';
+                    }
+                },
+                {
+                    title: 'Acciones',
+                    data: 'id_orden',
+                    orderable: false,
+                    render: (data, type, row) => `
+                        <button class="btn btn-warning btn-sm modificar" 
+                            data-id="${data}"
+                            data-numero_orden="${row.numero_orden}"  
+                            data-id_cliente="${row.id_cliente || ''}"  
+                            data-id_marca="${row.id_marca || ''}"  
+                            data-modelo_dispositivo="${row.modelo_dispositivo || ''}"  
+                            data-imei_dispositivo="${row.imei_dispositivo || ''}"  
+                            data-motivo_ingreso="${row.motivo_ingreso || ''}"
+                            data-descripcion_problema="${row.descripcion_problema || ''}"
+                            data-estado_orden="${row.estado_orden || 'R'}"
+                            data-fecha_promesa_entrega="${row.fecha_promesa_entrega || ''}"
+                            data-fecha_entrega_real="${row.fecha_entrega_real || ''}"
+                            data-id_trabajador_asignado="${row.id_trabajador || ''}"
+                            data-observaciones="${row.observaciones || ''}">
+                            <i class="bi bi-pencil"></i> Modificar
+                        </button>
+                        <button class="btn btn-danger btn-sm eliminar" 
+                            data-id="${data}"
+                            data-numero="${row.numero_orden}">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    `
+                }
+            ]
+        });
+    }
+}
+
+const llenarFormulario = (event) => {
+    const datos = event.currentTarget.dataset
+
+    document.getElementById('id_orden').value = datos.id
+    document.getElementById('numero_orden').value = datos.numero_orden
+    document.getElementById('id_cliente').value = datos.id_cliente
+    document.getElementById('id_marca').value = datos.id_marca
+    document.getElementById('modelo_dispositivo').value = datos.modelo_dispositivo
+    document.getElementById('imei_dispositivo').value = datos.imei_dispositivo
+    document.getElementById('motivo_ingreso').value = datos.motivo_ingreso
+    document.getElementById('descripcion_problema').value = datos.descripcion_problema
+    document.getElementById('estado_orden').value = datos.estado_orden
+    document.getElementById('fecha_promesa_entrega').value = datos.fecha_promesa_entrega
+    document.getElementById('fecha_entrega_real').value = datos.fecha_entrega_real
+    document.getElementById('id_trabajador_asignado').value = datos.id_trabajador_asignado
+    document.getElementById('observaciones').value = datos.observaciones
+
+    // Validar estado y fecha después de llenar
+    ValidarEstadoFecha();
+
+    if (BtnGuardar) BtnGuardar.classList.add('d-none');
+    if (BtnModificar) BtnModificar.classList.remove('d-none');
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+const ModificarOrdenReparacion = async (event) => {
+    event.preventDefault();
+    BtnModificar.disabled = true;
+
+    if (!validarFormulario(FormOrdenesReparacion, [''])) {
+        Swal.fire({
+            position: "center",
+            icon: "info",
+            title: "FORMULARIO INCOMPLETO",
+            text: "Debe de validar todos los campos",
+            showConfirmButton: true,
+        });
+        BtnModificar.disabled = false;
+        return;
+    }
+
+    const body = new FormData(FormOrdenesReparacion);
+
+    try {
+        const respuesta = await fetch('/proyecto_pmlx/ordenes_reparacion/modificarAPI', {
+            method: 'POST',
+            body
+        });
+        const datos = await respuesta.json();
+        const { codigo, mensaje } = datos
+
+        if (codigo == 1) {
+            await Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Éxito",
+                text: mensaje,
+                showConfirmButton: true,
+            });
+
+            limpiarTodo();
+            BuscarOrdenesReparacion();
+        } else {
+            await Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Error",
+                text: mensaje,
+                showConfirmButton: true,
+            });
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    BtnModificar.disabled = false;
+}
+
+const EliminarOrdenReparacion = async (e) => {
+    const idOrden = e.currentTarget.dataset.id
+    const numeroOrden = e.currentTarget.dataset.numero
+
+    const AlertaConfirmarEliminar = await Swal.fire({
+        position: "center",
+        icon: "question",
+        title: "¿Desea eliminar esta orden de reparación?",
+        text: `La orden "${numeroOrden}" será eliminada permanentemente`,
+        showConfirmButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        confirmButtonColor: '#dc3545',
+        cancelButtonText: 'No, Cancelar',
+        showCancelButton: true
+    });
+
+    if (AlertaConfirmarEliminar.isConfirmed) {
+        try {
+            const consulta = await fetch(`/proyecto_pmlx/ordenes_reparacion/eliminar?id=${idOrden}`);
+            const respuesta = await consulta.json();
+            const { codigo, mensaje } = respuesta;
+
+            if (codigo == 1) {
+                await Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Éxito",
+                    text: mensaje,
+                    showConfirmButton: true,
+                });
+
+                BuscarOrdenesReparacion();
+            } else {
+                await Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Error",
+                    text: mensaje,
+                    showConfirmButton: true,
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+}
+
+const limpiarTodo = () => {
+    if (FormOrdenesReparacion) {
+        FormOrdenesReparacion.reset();
+    }
+    if (BtnGuardar) BtnGuardar.classList.remove('d-none');
+    if (BtnModificar) BtnModificar.classList.add('d-none');
+    
+    // Resetear validación de fecha
+    ValidarEstadoFecha();
+}
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', function() {
+    inicializarDataTable();
+    
+    // Cargar datos para los selects
+    CargarClientes();
+    CargarMarcas();
+    CargarTrabajadores();
+    
+    setTimeout(() => {
+        BuscarOrdenesReparacion();
+    }, 500);
+    
+    if (FormOrdenesReparacion) {
+        FormOrdenesReparacion.addEventListener('submit', GuardarOrdenReparacion);
+    }
+
+    if (SelectEstado) {
+        SelectEstado.addEventListener('change', ValidarEstadoFecha);
+    }
+
+    if (BtnLimpiar) {
+        BtnLimpiar.addEventListener('click', limpiarTodo);
+    }
+
+    if (BtnModificar) {
+        BtnModificar.addEventListener('click', ModificarOrdenReparacion);
+    }
+
+    // Event listeners para DataTable (se agregan después de que se inicialice)
+    setTimeout(() => {
+        if (datatable) {
+            datatable.on('click', '.eliminar', EliminarOrdenReparacion);
+            datatable.on('click', '.modificar', llenarFormulario);
+        }
+    }, 1000);
+});

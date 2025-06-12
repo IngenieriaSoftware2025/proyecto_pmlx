@@ -14,8 +14,6 @@ class OrdenesReparacion extends ActiveRecord {
         'motivo_ingreso',
         'descripcion_problema',
         'estado_orden',
-        'fecha_promesa_entrega',
-        'fecha_entrega_real',
         'id_trabajador_asignado',
         'observaciones',
         'usuario_recepcion'
@@ -41,8 +39,8 @@ class OrdenesReparacion extends ActiveRecord {
     public function __construct($args = []){
         $this->id_orden = $args['id_orden'] ?? null;
         $this->numero_orden = $args['numero_orden'] ?? '';
-        $this->id_cliente = $args['id_cliente'] ?? '';
-        $this->id_marca = $args['id_marca'] ?? '';
+        $this->id_cliente = $args['id_cliente'] ?? null;
+        $this->id_marca = $args['id_marca'] ?? null;
         $this->modelo_dispositivo = $args['modelo_dispositivo'] ?? '';
         $this->imei_dispositivo = $args['imei_dispositivo'] ?? '';
         $this->motivo_ingreso = $args['motivo_ingreso'] ?? '';
@@ -53,6 +51,6 @@ class OrdenesReparacion extends ActiveRecord {
         $this->fecha_entrega_real = $args['fecha_entrega_real'] ?? null;
         $this->id_trabajador_asignado = $args['id_trabajador_asignado'] ?? null;
         $this->observaciones = $args['observaciones'] ?? '';
-        $this->usuario_recepcion = $args['usuario_recepcion'] ?? '';
+        $this->usuario_recepcion = $args['usuario_recepcion'] ?? null;
     }
 }
