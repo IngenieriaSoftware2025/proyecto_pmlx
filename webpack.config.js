@@ -16,6 +16,8 @@ module.exports = {
     'js/ordenes_reparacion/index' : './src/js/ordenes_reparacion/index.js',
     'js/servicios_orden/index' : './src/js/servicios_orden/index.js',
     'js/ventas/index' : './src/js/ventas/index.js',
+    'js/detalle_venta_productos/index' : './src/js/detalle_venta_productos/index.js',
+    'js/detalle_venta_servicios/index' : './src/js/detalle_venta_servicios/index.js',
   },
   output: {
     filename: '[name].js',

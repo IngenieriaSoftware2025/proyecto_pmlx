@@ -1,14 +1,5 @@
 
 -- 1. TABLA DE ROLES DE USUARIOS
- CREATE TABLE roles (
-    id_rol SERIAL PRIMARY KEY,
-    nombre_rol VARCHAR(50) NOT NULL UNIQUE,
-    descripcion VARCHAR(200),
-    fecha_creacion DATETIME YEAR TO SECOND DEFAULT CURRENT YEAR TO SECOND
-);
-
-
--- 1. TABLA DE ROLES DE USUARIOS
 CREATE TABLE roles (
     id_rol SERIAL PRIMARY KEY,
     nombre_rol VARCHAR(50) NOT NULL UNIQUE,
@@ -227,6 +218,9 @@ INSERT INTO roles (nombre_rol, descripcion) VALUES
 ('Empleado', 'Acceso a ventas, reparaciones e inventario');
 INSERT INTO roles (nombre_rol, descripcion) VALUES 
 ('Técnico', 'Acceso principalmente a módulo de reparaciones');
+
+
+
 
 -- Insertar usuario administrador por defecto
 INSERT INTO usuarios (nombre_usuario, password, nombre_completo, email, id_rol) VALUES 

@@ -33,9 +33,9 @@
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/usuarios"><i class="bi bi-house-fill me-2"></i>Usuarios</a>
                     </li> -->
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/roles"><i class="bi bi-house-fill me-2"></i>Roles</a>
-                    </li>
+                    </li> -->
 
                     <!-- <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/marcas"><i class="bi bi-house-fill me-2"></i>Marcas</a>
@@ -135,20 +135,48 @@
                         <ul class="dropdown-menu dropdown-menu-dark" style="margin: 0;">
                             <li>
                                 <a class="dropdown-item nav-link text-white" href="/proyecto_pmlx/ordenes_reparacion">
-                                    <i class="bi bi-people me-2"></i>Orden de la reparacion
+                                    <i class="bi bi-people me-2"></i>Orden reparacion
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-link text-white" href="/proyecto_pmlx/servicios_orden">
-                                    <i class="bi bi-people me-2"></i>Orden del servicio
+                                    <i class="bi bi-people me-2"></i>Orden servicio
                                 </a>
                             </li>
                         </ul>
                     </div>
 
+
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-gear me-2"></i> Detalle de ventas 
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" style="margin: 0;">
+                            <li>
+                                <a class="dropdown-item nav-link text-white" href="/proyecto_pmlx/detalle_venta_productos">
+                                    <i class="bi bi-people me-2"></i>Venta de Telefonos
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white" href="/proyecto_pmlx/detalle_venta_servicios">
+                                    <i class="bi bi-people me-2"></i>Venta de servicios
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                    
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/inventario"><i class="bi bi-house-fill me-2"></i>Inventario</a>
                     </li>
+<!-- 
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/detalle_venta_productos"><i class="bi bi-house-fill me-2"></i>Detalle de la venta de productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/detalle_venta_servicios"><i class="bi bi-house-fill me-2"></i>Detalle de la venta de servicios</a>
+                    </li> -->
 
 
 

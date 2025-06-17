@@ -9,7 +9,10 @@ use Controllers\RolController;
 use Controllers\UsuarioController;
 use Controllers\ModeloController;
 use Controllers\ClienteController;
+use Controllers\DetalleVentaProductosController;
+use Controllers\DetalleVentaServiciosController;
 use Controllers\InventarioController;
+use Controllers\MovimientosInventarioController;
 use Controllers\TiposServicioController;
 use Controllers\TrabajadoresController;
 use Controllers\OrdenReparacionController;
@@ -145,7 +148,53 @@ $router->get('/ventas/clientesDisponiblesAPI', [VentasController::class, 'client
 $router->get('/ventas/vendedoresDisponiblesAPI', [VentasController::class, 'vendedoresDisponiblesAPI']);
 $router->get('/ventas/generarNumeroFacturaAPI', [VentasController::class, 'generarNumeroFacturaAPI']);
 
+// Detalle Venta Productos - Página principal
+$router->get('/detalle_venta_productos', [DetalleVentaProductosController::class, 'renderizarPagina']);
+
+// Detalle Venta Productos - APIs CRUD
+$router->post('/detalle_venta_productos/guardarAPI', [DetalleVentaProductosController::class, 'guardarAPI']);
+$router->get('/detalle_venta_productos/buscarAPI', [DetalleVentaProductosController::class, 'buscarAPI']);
+$router->post('/detalle_venta_productos/modificarAPI', [DetalleVentaProductosController::class, 'modificarAPI']);
+$router->get('/detalle_venta_productos/eliminar', [DetalleVentaProductosController::class, 'eliminarAPI']);
+
+// Detalle Venta Productos - APIs de datos para selects
+$router->get('/detalle_venta_productos/ventasDisponiblesAPI', [DetalleVentaProductosController::class, 'ventasDisponiblesAPI']);
+$router->get('/detalle_venta_productos/productosDisponiblesAPI', [DetalleVentaProductosController::class, 'productosDisponiblesAPI']);
+$router->get('/detalle_venta_productos/obtenerDetallesPorVenta', [DetalleVentaProductosController::class, 'obtenerDetallesPorVenta']);
 
 
-// Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
+// Detalle Venta Servicios - Página principal
+$router->get('/detalle_venta_servicios', [DetalleVentaServiciosController::class, 'renderizarPagina']);
+
+// Detalle Venta Servicios - APIs CRUD
+$router->post('/detalle_venta_servicios/guardarAPI', [DetalleVentaServiciosController::class, 'guardarAPI']);
+$router->get('/detalle_venta_servicios/buscarAPI', [DetalleVentaServiciosController::class, 'buscarAPI']);
+$router->post('/detalle_venta_servicios/modificarAPI', [DetalleVentaServiciosController::class, 'modificarAPI']);
+$router->get('/detalle_venta_servicios/eliminar', [DetalleVentaServiciosController::class, 'eliminarAPI']);
+
+// Detalle Venta Servicios - APIs de datos para selects
+$router->get('/detalle_venta_servicios/ventasDisponiblesAPI', [DetalleVentaServiciosController::class, 'ventasDisponiblesAPI']);
+$router->get('/detalle_venta_servicios/ordenesDisponiblesAPI', [DetalleVentaServiciosController::class, 'ordenesDisponiblesAPI']);
+
+
+// Movimientos Inventario - Página principal
+$router->get('/movimientos_inventario', [MovimientosInventarioController::class, 'renderizarPagina']);
+
+// Movimientos Inventario - APIs CRUD
+$router->post('/movimientos_inventario/guardarAPI', [MovimientosInventarioController::class, 'guardarAPI']);
+$router->get('/movimientos_inventario/buscarAPI', [MovimientosInventarioController::class, 'buscarAPI']);
+$router->post('/movimientos_inventario/modificarAPI', [MovimientosInventarioController::class, 'modificarAPI']);
+$router->get('/movimientos_inventario/eliminar', [MovimientosInventarioController::class, 'eliminarAPI']);
+
+// Movimientos Inventario - APIs de datos para selects
+$router->get('/movimientos_inventario/productosInventarioAPI', [MovimientosInventarioController::class, 'productosInventarioAPI']);
+$router->get('/movimientos_inventario/usuariosDisponiblesAPI', [MovimientosInventarioController::class, 'usuariosDisponiblesAPI']);
+
+// Movimientos Inventario - APIs de reportes y resúmenes
+$router->get('/movimientos_inventario/resumenPorProductoAPI', [MovimientosInventarioController::class, 'resumenPorProductoAPI']);
+$router->get('/movimientos_inventario/movimientosPorProductoAPI', [MovimientosInventarioController::class, 'movimientosPorProductoAPI']);
+
+
+
+// Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador siempre va de ultimo 
 $router->comprobarRutas();
