@@ -226,7 +226,7 @@
                             ✅ Reparación iPhone 13 completada
                         </div>
                         <div style="font-size: 0.85rem; color: #6c757d;">
-                            🔧 Cambio de pantalla • ⏰ Hace 15 minutos
+                            🔧 Cambio de pantalla • ⏰ Hace 15 minutos 
                         </div>
                     </div>
                 </div>
@@ -295,7 +295,7 @@ function animateCounter(element, target, duration = 2000) {
     timer();
 }
 
-// Inicializar contadores cuando se carga la página
+// Inicializar contadores cuando se carga la página inicio 
 document.addEventListener('DOMContentLoaded', function() {
     const counters = document.querySelectorAll('[style*="font-size: 2.5rem"]');
     
