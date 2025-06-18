@@ -10,6 +10,8 @@ use MVC\Router;
 class MarcaController extends ActiveRecord{
     public static function renderizarPagina(Router $router){
         $router->render('marcas/index', []);
+
+        verificarPermisos('marcas');
     }
 
     //Guardar Marcas

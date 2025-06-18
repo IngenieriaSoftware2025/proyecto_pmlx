@@ -11,6 +11,7 @@ class VentasController extends ActiveRecord {
     
     public static function renderizarPagina(Router $router) {
         $router->render('ventas/index', []);
+        verificarPermisos('ventas');
     }
 
     // Guardar Venta

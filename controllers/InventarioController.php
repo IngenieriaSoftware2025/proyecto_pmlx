@@ -10,6 +10,8 @@ use MVC\Router;
 class InventarioController extends ActiveRecord{
     public static function renderizarPagina(Router $router){
         $router->render('inventario/index', []);
+
+        verificarPermisos('inventario');
     }
 
     //Guardar Inventario

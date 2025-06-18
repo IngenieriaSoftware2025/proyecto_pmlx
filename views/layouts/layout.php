@@ -72,7 +72,7 @@
 
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            <i class="bi bi-gear me-2"></i>Tipo de accion
+                            <i class="bi bi-gear me-2"></i>Registros
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" style="margin: 0;">
                             <li>
@@ -138,11 +138,14 @@
                 </ul>
 
                 </ul>
-                <div class="col-lg-1 d-grid mb-lg-0 mb-2">
-                    <!-- Ruta relativa desde el archivo donde se incluye menu.php -->
-                    <a href="/menu/" class="btn btn-danger"><i class="bi bi-arrow-bar-left"></i>MENÚ</a>
-                </div>
 
+
+
+                <div class="col-lg-1 d-grid mb-lg-0 mb-2">
+                    <a href="/proyecto_pmlx/logout" class="btn btn-warning me-2">
+                        <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                    </a>
+                </div>
 
             </div>
         </div>

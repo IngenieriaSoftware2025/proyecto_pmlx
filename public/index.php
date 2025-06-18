@@ -173,4 +173,13 @@ $router->get('/estadisticas/buscarTrabajadoresAPI', [EstadisticasController::cla
 $router->get('/estadisticas/buscarUsuariosAPI', [EstadisticasController::class, 'buscarUsuariosAPI']);
 
 
+$router->get('/sin-permisos', [AppController::class, 'sinPermisos']);
+
+
+
+// cerrar sesion
+
+$router->get('/logout', [AppController::class,'logout']);
+
+
 $router->comprobarRutas();

@@ -237,8 +237,6 @@ INSERT INTO roles (nombre_rol, descripcion) VALUES
 ('Técnico', 'Acceso principalmente a módulo de reparaciones');
 
 
-
-
 -- Insertar usuario administrador por defecto
 INSERT INTO usuarios (nombre_usuario, password, nombre_completo, email, id_rol) VALUES 
 ('admin', 'admin123', 'Administrador del Sistema', 'admin@empresa.com', 1);
@@ -280,3 +278,30 @@ INSERT INTO configuracion_sistema (clave_config, valor_config, descripcion, usua
 ('impuesto_iva', '12', 'Porcentaje de IVA', 1);
 INSERT INTO configuracion_sistema (clave_config, valor_config, descripcion, usuario_modificacion) VALUES 
 ('moneda_simbolo', 'Q', 'Símbolo de la moneda local', 1);
+
+
+-----iniciar sesion
+ 
+ CREATE TABLE usuario_login2025 (
+    usu_id SERIAL PRIMARY KEY,
+    usu_nombre VARCHAR(50),
+    usu_codigo INTEGER,
+    usu_password VARCHAR(150),
+    usu_situacion SMALLINT DEFAULT 1
+);
+
+CREATE TABLE rol_login2025 (
+    rol_id SERIAL PRIMARY KEY,
+    rol_nombre VARCHAR(75),
+    rol_nombre_ct VARCHAR(25),
+    rol_situacion SMALLINT DEFAULT 1
+);
+
+CREATE TABLE permiso_login2025 (
+    permiso_id SERIAL PRIMARY KEY,
+    permiso_usuario INTEGER,
+    permiso_rol INTEGER,
+    permiso_situacion SMALLINT DEFAULT 1,
+    FOREIGN KEY (permiso_usuario) REFERENCES usuario_login2025 (usu_id),
+    FOREIGN KEY (permiso_rol) REFERENCES rol_login2025 (rol_id)
+);

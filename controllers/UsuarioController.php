@@ -8,9 +8,12 @@ use Model\Usuarios;
 use MVC\Router;
 
 class UsuarioController extends ActiveRecord{
-    public static function renderizarPagina(Router $router){
-        $router->render('usuarios/index', []);
-    }
+   public static function renderizarPAgina(Router $router)
+{
+    verificarPermisos('usuarios'); 
+    
+    $router->render('usuarios/index', []);
+}
 
     //Guardar Usuarios
     public static function guardarAPI(){

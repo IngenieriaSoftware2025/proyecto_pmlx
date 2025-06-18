@@ -89,3 +89,68 @@ function verificarAutenticacion() {
         exit;
     }
 }
+
+function verificarLogin() {
+    session_start();
+    if (!isset($_SESSION['usuario_id'])) {
+        header('Location: /proyecto_pmlx/login');
+        exit;
+    }
+}
+
+function obtenerRolUsuario() {
+    session_start();
+    
+    if (!isset($_SESSION['usuario_id'])) {
+        return null;
+    }
+    
+    // Obtener el rol del usuario desde la base de datos
+    $sql = "SELECT r.nombre_rol 
+            FROM usuarios u 
+            INNER JOIN roles r ON u.id_rol = r.id_rol 
+            WHERE u.id_usuario = " . $_SESSION['usuario_id'];
+    
+    $resultado = \Model\ActiveRecord::fetchArray($sql);
+    
+    if ($resultado && count($resultado) > 0) {
+        return $resultado[0]['nombre_rol'];
+    }
+    
+    return null;
+}
+
+function verificarPermisos($modulo) {
+    verificarLogin(); 
+    
+    $rol = obtenerRolUsuario();
+  
+    $permisos = [
+        'Administrador' => [
+            'usuarios', 'roles', 'marcas', 'modelos', 'clientes', 
+            'inventario', 'ventas', 'ordenes_reparacion', 'servicios_orden', 
+            'trabajadores', 'tipos_servicio', 'estadisticas', 
+            'detalle_venta_productos', 'detalle_venta_servicios', 
+            'movimientos_inventario'
+        ],
+        'Empleado' => [
+            'marcas', 'modelos', 'clientes', 'ventas', 'ordenes_reparacion', 
+            'servicios_orden', 'trabajadores', 'tipos_servicio', 
+            'detalle_venta_productos'
+            
+         
+        ],
+        'Técnico' => [
+            'tipos_servicio', 'ordenes_reparacion', 'servicios_orden'
+           
+        ]
+    ];
+    
+ 
+    if (!isset($permisos[$rol]) || !in_array($modulo, $permisos[$rol])) {
+        header('Location: /proyecto_pmlx/sin-permisos');
+        exit;
+    }
+    
+    return true;
+}

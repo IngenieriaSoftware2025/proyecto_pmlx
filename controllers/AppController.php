@@ -23,6 +23,8 @@ class AppController
         header("Location: /$login");
     }
 
+
+
     public static function renderInicio(Router $router)
     {
         hasPermission(['ADMIN']);
@@ -230,16 +232,17 @@ class AppController
         }
     }
 
-    public static function inicio(Router $router)
-    {
-        session_start();
-        
-        if (!isset($_SESSION['usuario_id'])) {
-            header('Location: /proyecto_pmlx/login');
-            exit;
-        }
+   public static function inicio(Router $router)
+{
+    verificarLogin(); 
+    
+    
+    $router->render('pages/index',[]);
+}
 
-        $router->render('pages/index',[]);
-    }
+public static function sinPermisos(Router $router)
+{
+    $router->render('pages/sin-permisos', []);
+}
 
 }
