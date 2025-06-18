@@ -1,10 +1,9 @@
 <div class="row justify-content-center p-3">
     <div class="col-lg-12">
-        <div class="card custom-card shadow-lg" style="border-radius: 10px; border: 1px solid #007bff;">
+        <div class="card custom-card shadow-lg" style="border-radius: 10px; border: 1px solidrgb(43, 1, 62);">
             <div class="card-body p-3">
                 <div class="row mb-3">
-                    <h5 class="text-center mb-2">Estadisticas</h5>
-                    <h1 class="text-center mb-2 text-primary">Tte de TTMM. PAOLA MERCEDES LÓPEZ XITUMUL</h1>
+                    <h2 class="text-center mb-2">Estadisticas</h2>
                 </div>
 
                 <div class="row p-3 justify-content-center">

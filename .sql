@@ -1,3 +1,4 @@
+database lopez03
 
 -- 1. TABLA DE ROLES DE USUARIOS
 CREATE TABLE roles (
@@ -20,22 +21,6 @@ CREATE TABLE usuarios (
     fecha_creacion DATETIME YEAR TO SECOND DEFAULT CURRENT YEAR TO SECOND,
     ultimo_acceso DATETIME YEAR TO SECOND,
     FOREIGN KEY (id_rol) REFERENCES roles(id_rol)
-);
-
-
-CREATE TABLE usuario_login2025 (
-    usu_id SERIAL PRIMARY KEY,
-    usu_nombre VARCHAR(50),
-    usu_codigo INTEGER,
-    usu_password VARCHAR(150),
-    usu_situacion SMALLINT DEFAULT 1
-);
-
-CREATE TABLE rol_login2025 (
-    rol_id SERIAL PRIMARY KEY,
-    rol_nombre VARCHAR(75),
-    rol_nombre_ct VARCHAR(25),
-    rol_situacion SMALLINT DEFAULT 1
 );
 
 
@@ -236,10 +221,6 @@ INSERT INTO roles (nombre_rol, descripcion) VALUES
 INSERT INTO roles (nombre_rol, descripcion) VALUES 
 ('Técnico', 'Acceso principalmente a módulo de reparaciones');
 
-
--- Insertar usuario administrador por defecto
-INSERT INTO usuarios (nombre_usuario, password, nombre_completo, email, id_rol) VALUES 
-('admin', 'admin123', 'Administrador del Sistema', 'admin@empresa.com', 1);
 
 -- Insertar algunas marcas populares
 INSERT INTO marcas (nombre_marca, descripcion, usuario_creacion) VALUES 
