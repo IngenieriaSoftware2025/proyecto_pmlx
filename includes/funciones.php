@@ -81,3 +81,11 @@ function getHeadersApi(){
 function asset($ruta){
     return "/". $_ENV['APP_NAME']."/public/" . $ruta;
 }
+
+function verificarAutenticacion() {
+    session_start();
+    if (!isset($_SESSION['usuario_id'])) {
+        header('Location: /proyecto_pmlx/login');
+        exit;
+    }
+}
