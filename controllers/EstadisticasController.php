@@ -8,9 +8,10 @@ use MVC\Router;
 
 class EstadisticasController extends ActiveRecord{
     
-    public static function renderizarPagina(Router $router){
-        $router->render('estadisticas/index', []);
-    }
+    public static function renderizarPagina(Router $router) {
+    verificarPermisos('estadisticas');
+    $router->render('estadisticas/index', []);
+}
 
     // 1. GRÁFICA DE VENTAS (Productos más vendidos)
     public static function buscarAPI(){

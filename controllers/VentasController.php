@@ -10,9 +10,9 @@ use MVC\Router;
 class VentasController extends ActiveRecord {
     
     public static function renderizarPagina(Router $router) {
-        $router->render('ventas/index', []);
-        verificarPermisos('ventas');
-    }
+    verificarPermisos('ventas');
+    $router->render('ventas/index', []);
+}
 
     // Guardar Venta
     public static function guardarAPI() {

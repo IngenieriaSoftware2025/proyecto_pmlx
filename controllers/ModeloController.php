@@ -8,14 +8,16 @@ use Model\Modelos;
 use MVC\Router;
 
 class ModeloController extends ActiveRecord{
-    public static function renderizarPagina(Router $router){
-        $router->render('modelos/index', []);
-    }
+    public static function renderizarPagina(Router $router) {
+    verificarPermisos('modelos');
+    $router->render('modelos/index', []);
+}
 
     //Guardar Modelos
+    //Guardar Modelos
     public static function guardarAPI(){
-        // getHeadersApi(); // Comentado temporalmente
-
+        session_start(); // ✅ AGREGADO
+        
         $_POST['nombre_modelo'] = htmlspecialchars($_POST['nombre_modelo']);
         $cantidad_nombre = strlen($_POST['nombre_modelo']);
 
@@ -92,7 +94,8 @@ class ModeloController extends ActiveRecord{
                 'nombre_modelo' => $_POST['nombre_modelo'],
                 'especificaciones' => $_POST['especificaciones'],
                 'precio_referencia' => $_POST['precio_referencia'],
-                'activo' => 'T'
+                'activo' => 'T',
+                'usuario_creacion' => $_SESSION['usuario_id'] ?? 1  
             ]);
 
             $crear = $data->crear();

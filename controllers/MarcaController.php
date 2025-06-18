@@ -16,6 +16,7 @@ class MarcaController extends ActiveRecord{
 
     //Guardar Marcas
     public static function guardarAPI(){
+        session_start(); // ✅ AGREGADO
 
         $_POST['nombre_marca'] = htmlspecialchars($_POST['nombre_marca']);
         $cantidad_nombre = strlen($_POST['nombre_marca']);
@@ -51,7 +52,7 @@ class MarcaController extends ActiveRecord{
                 'nombre_marca' => $_POST['nombre_marca'],
                 'descripcion' => $_POST['descripcion'],
                 'activo' => 'T',
-                'usuario_creacion' => 1 
+                'usuario_creacion' => $_SESSION['usuario_id'] ?? 1  // ✅ CORREGIDO
             ]);
 
             $crear = $data->crear();
@@ -73,32 +74,38 @@ class MarcaController extends ActiveRecord{
 
     //Buscar Marcas
     public static function buscarAPI(){
-        try {
-            $sql = "SELECT m.id_marca, m.nombre_marca, m.descripcion, m.activo, 
-                           m.fecha_creacion, m.usuario_creacion,
-                           0 as modelos_registrados,
-                           'Sistema' as usuario_creador
-                    FROM marcas m 
-                    WHERE m.activo = 'T'
-                    ORDER BY m.nombre_marca";
-            $data = self::fetchArray($sql);
+    try {
+        $sql = "SELECT 
+                    m.id_marca,
+                    m.nombre_marca,
+                    m.descripcion,
+                    m.fecha_creacion,
+                    COALESCE(u.nombre_completo, 'Sistema') as usuario_creador,
+                    COALESCE(COUNT(mo.id_modelo), 0) as modelos_registrados
+                FROM marcas m
+                LEFT JOIN usuarios u ON m.usuario_creacion = u.id_usuario  
+                LEFT JOIN modelos mo ON m.id_marca = mo.id_marca AND mo.activo = 'T'
+                WHERE m.activo = 'T'
+                GROUP BY m.id_marca, m.nombre_marca, m.descripcion, m.fecha_creacion, u.nombre_completo
+                ORDER BY m.nombre_marca";
+        
+        $data = self::fetchArray($sql);
 
-            http_response_code(200);
-            echo json_encode([
-                'codigo' => 1,
-                'mensaje' => 'Marcas obtenidas correctamente',
-                'data' => $data
-            ]);
-        } catch (Exception $e) {
-            http_response_code(400);
-            echo json_encode([
-                'codigo' => 0,
-                'mensaje' => 'Error al obtener las marcas',
-                'detalle' => $e->getMessage()
-            ]);
-        }
+        http_response_code(200);
+        echo json_encode([
+            'codigo' => 1,
+            'mensaje' => 'Marcas obtenidas correctamente',
+            'data' => $data
+        ]);
+    } catch (Exception $e) {
+        http_response_code(400);
+        echo json_encode([
+            'codigo' => 0,
+            'mensaje' => 'Error al obtener las marcas',
+            'detalle' => $e->getMessage()
+        ]);
     }
-
+}
     //Modificar Marcas
     public static function modificarAPI(){
         

@@ -8,9 +8,10 @@ use Model\TiposServicio;
 use MVC\Router;
 
 class TiposServicioController extends ActiveRecord{
-    public static function renderizarPagina(Router $router){
-        $router->render('tipos_servicio/index', []);
-    }
+    public static function renderizarPagina(Router $router) {
+    verificarPermisos('tipos_servicio');
+    $router->render('tipos_servicio/index', []);
+}
 
     //Guardar Tipos de Servicio
     public static function guardarAPI(){

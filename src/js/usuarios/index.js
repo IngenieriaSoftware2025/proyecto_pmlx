@@ -366,7 +366,7 @@ const EliminarUsuario = async (e) => {
     });
 
     if (AlertaConfirmarEliminar.isConfirmed) {
-        const url = `/proyecto_pmlx/usuarios/eliminar?id=${idUsuario}`;
+        const url = `/proyecto_pmlx/usuarios/eliminarAPI?id=${idUsuario}`;
         const config = {
             method: 'GET'
         }

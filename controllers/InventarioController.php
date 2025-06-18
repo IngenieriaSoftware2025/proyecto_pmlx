@@ -8,11 +8,10 @@ use Model\Inventario;
 use MVC\Router;
 
 class InventarioController extends ActiveRecord{
-    public static function renderizarPagina(Router $router){
-        $router->render('inventario/index', []);
-
-        verificarPermisos('inventario');
-    }
+    public static function renderizarPagina(Router $router) {
+    verificarPermisos('inventario');
+    $router->render('inventario/index', []);
+}
 
     //Guardar Inventario
     public static function guardarAPI(){

@@ -8,9 +8,10 @@ use Model\Clientes;
 use MVC\Router;
 
 class ClienteController extends ActiveRecord{
-    public static function renderizarPagina(Router $router){
-        $router->render('clientes/index', []);
-    }
+    public static function renderizarPagina(Router $router) {
+    verificarPermisos('clientes');
+    $router->render('clientes/index', []);
+}
 
     //Guardar Clientes
     public static function guardarAPI(){

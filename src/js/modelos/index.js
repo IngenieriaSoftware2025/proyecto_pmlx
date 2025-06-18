@@ -9,35 +9,8 @@ const BtnGuardar = document.getElementById('BtnGuardar');
 const BtnModificar = document.getElementById('BtnModificar');
 const BtnLimpiar = document.getElementById('BtnLimpiar');
 const SelectMarca = document.getElementById('id_marca');
-const InputPrecio = document.getElementById('precio_referencia');
 
 let datatable;
-
-const ValidarPrecio = () => {
-    if (!InputPrecio) return;
-    
-    const precio = InputPrecio.value;
-
-    if (precio.length < 1) {
-        InputPrecio.classList.remove('is-valid', 'is-invalid');
-    } else {
-        if (precio < 0) {
-            Swal.fire({
-                position: "center",
-                icon: "error",
-                title: "Precio inválido",
-                text: "El precio de referencia no puede ser negativo",
-                showConfirmButton: true,
-            });
-
-            InputPrecio.classList.remove('is-valid');
-            InputPrecio.classList.add('is-invalid');
-        } else {
-            InputPrecio.classList.remove('is-invalid');
-            InputPrecio.classList.add('is-valid');
-        }
-    }
-}
 
 const GuardarModelo = async (event) => {
     event.preventDefault();
@@ -170,58 +143,23 @@ const inicializarDataTable = () => {
                 {
                     title: 'No.',
                     data: 'id_modelo',
-                    width: '5%',
+                    width: '10%',
                     render: (data, type, row, meta) => meta.row + 1
                 },
                 { 
                     title: 'Marca', 
                     data: 'nombre_marca',
-                    width: '15%'
+                    width: '30%'
                 },
                 { 
                     title: 'Modelo', 
                     data: 'nombre_modelo',
-                    width: '20%'
-                },
-                { 
-                    title: 'Especificaciones', 
-                    data: 'especificaciones',
-                    width: '25%',
-                    render: (data, type, row) => {
-                        if (data && data.length > 50) {
-                            return data.substring(0, 50) + '...';
-                        }
-                        return data || '<span class="text-muted">Sin especificaciones</span>';
-                    }
-                },
-                { 
-                    title: 'Precio Referencia', 
-                    data: 'precio_referencia',
-                    width: '12%',
-                    render: (data, type, row) => {
-                        const precio = parseFloat(data);
-                        if (precio > 0) {
-                            return `Q. ${precio.toFixed(2)}`;
-                        }
-                        return '<span class="text-muted">No especificado</span>';
-                    }
-                },
-                { 
-                    title: 'Fecha Creación', 
-                    data: 'fecha_creacion',
-                    width: '8%',
-                    render: (data, type, row) => {
-                        if (data) {
-                            const fecha = new Date(data);
-                            return fecha.toLocaleDateString('es-GT');
-                        }
-                        return '<span class="text-muted">N/A</span>';
-                    }
+                    width: '40%'
                 },
                 {
                     title: 'Acciones',
                     data: 'id_modelo',
-                    width: '15%',
+                    width: '20%',
                     searchable: false,
                     orderable: false,
                     render: (data, type, row, meta) => {
@@ -231,8 +169,6 @@ const inicializarDataTable = () => {
                                  data-id="${data}" 
                                  data-marca="${row.id_marca}"
                                  data-modelo="${row.nombre_modelo}"  
-                                 data-especificaciones="${row.especificaciones || ''}"
-                                 data-precio="${row.precio_referencia || ''}"
                                  title="Modificar modelo">
                                  <i class='bi bi-pencil-square me-1'></i> Modificar
                              </button>
@@ -256,8 +192,6 @@ const llenarFormulario = (event) => {
 
     document.getElementById('id_modelo').value = datos.id
     document.getElementById('nombre_modelo').value = datos.modelo
-    document.getElementById('especificaciones').value = datos.especificaciones
-    document.getElementById('precio_referencia').value = datos.precio
 
     if (SelectMarca) {
         SelectMarca.value = datos.marca;
@@ -407,10 +341,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listeners para formulario
     if (FormModelos) {
         FormModelos.addEventListener('submit', GuardarModelo);
-    }
-
-    if (InputPrecio) {
-        InputPrecio.addEventListener('change', ValidarPrecio);
     }
 
     if (BtnLimpiar) {
