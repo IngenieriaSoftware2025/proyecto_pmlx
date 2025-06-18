@@ -26,48 +26,8 @@
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="margin: 0;">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/"><i class="bi bi-house-fill me-2"></i>Inicio</a>
+                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/inicio"><i class="bi bi-house-fill me-2"></i>Inicio</a>
                     </li>
-
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/usuarios"><i class="bi bi-house-fill me-2"></i>Usuarios</a>
-                    </li> -->
-
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/roles"><i class="bi bi-house-fill me-2"></i>Roles</a>
-                    </li> -->
-
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/marcas"><i class="bi bi-house-fill me-2"></i>Marcas</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/modelos"><i class="bi bi-house-fill me-2"></i>Modelos</a>
-                    </li>  -->
-
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/clientes"><i class="bi bi-house-fill me-2"></i>clientes</a>
-                    </li> -->
-
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/tipos_servicio"><i class="bi bi-house-fill me-2"></i> Servicios adquiridos </a>
-                    </li> -->
-
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/trabajadores"><i class="bi bi-house-fill me-2"></i>Trabajadores</a>
-                    </li> -->
-
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/ordenes_reparacion"><i class="bi bi-house-fill me-2"></i>Ordenes de Reparacion </a>
-                    </li> -->
-
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/servicios_orden"><i class="bi bi-house-fill me-2"></i>Servicios orden </a>
-                    </li> -->
-
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/ventas"><i class="bi bi-house-fill me-2"></i>Ventas </a>
-                    </li> -->
 
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
@@ -149,7 +109,7 @@
 
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            <i class="bi bi-gear me-2"></i> Detalle de ventas 
+                            <i class="bi bi-gear me-2"></i> Detalle de ventas
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" style="margin: 0;">
                             <li>
@@ -166,22 +126,17 @@
                     </div>
 
 
-                    
+
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/proyecto_pmlx/inventario"><i class="bi bi-house-fill me-2"></i>Inventario</a>
                     </li>
-<!-- 
+
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/detalle_venta_productos"><i class="bi bi-house-fill me-2"></i>Detalle de la venta de productos</a>
+                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/estadisticas"><i class="bi bi-house-fill me-2"></i>Estadisticas</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/proyecto_pmlx/detalle_venta_servicios"><i class="bi bi-house-fill me-2"></i>Detalle de la venta de servicios</a>
-                    </li> -->
-
-
 
                 </ul>
-               
+
                 </ul>
                 <div class="col-lg-1 d-grid mb-lg-0 mb-2">
                     <!-- Ruta relativa desde el archivo donde se incluye menu.php -->

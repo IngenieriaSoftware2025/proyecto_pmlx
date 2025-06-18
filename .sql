@@ -22,6 +22,23 @@ CREATE TABLE usuarios (
     FOREIGN KEY (id_rol) REFERENCES roles(id_rol)
 );
 
+
+CREATE TABLE usuario_login2025 (
+    usu_id SERIAL PRIMARY KEY,
+    usu_nombre VARCHAR(50),
+    usu_codigo INTEGER,
+    usu_password VARCHAR(150),
+    usu_situacion SMALLINT DEFAULT 1
+);
+
+CREATE TABLE rol_login2025 (
+    rol_id SERIAL PRIMARY KEY,
+    rol_nombre VARCHAR(75),
+    rol_nombre_ct VARCHAR(25),
+    rol_situacion SMALLINT DEFAULT 1
+);
+
+
 -- 3. TABLA DE MARCAS DE CELULARES
 
 CREATE TABLE marcas (

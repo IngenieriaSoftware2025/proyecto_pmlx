@@ -18,6 +18,8 @@ module.exports = {
     'js/ventas/index' : './src/js/ventas/index.js',
     'js/detalle_venta_productos/index' : './src/js/detalle_venta_productos/index.js',
     'js/detalle_venta_servicios/index' : './src/js/detalle_venta_servicios/index.js',
+    'js/login/login' : './src/js/login/login.js',
+    'js/estadisticas/index' : './src/js/estadisticas/index.js',
   },
   output: {
     filename: '[name].js',

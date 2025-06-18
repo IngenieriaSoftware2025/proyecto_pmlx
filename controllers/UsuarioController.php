@@ -118,9 +118,12 @@ class UsuarioController extends ActiveRecord{
         $_POST['id_rol'] = $rol_validado;
 
         try {
+            // HASHEAR LA CONTRASEÑA antes de guardar
+            $passwordHasheado = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            
             $data = new Usuarios([
                 'nombre_usuario' => $_POST['nombre_usuario'],
-                'password' => $_POST['password'],
+                'password' => $passwordHasheado, // ← CONTRASEÑA HASHEADA
                 'nombre_completo' => $_POST['nombre_completo'],
                 'email' => $_POST['email'],
                 'telefono' => $_POST['telefono'],
@@ -296,7 +299,8 @@ class UsuarioController extends ActiveRecord{
                     return;
                 }
 
-                $datos_actualizar['password'] = $_POST['password'];
+                // HASHEAR LA NUEVA CONTRASEÑA
+                $datos_actualizar['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
             }
 
             $data->sincronizar($datos_actualizar);

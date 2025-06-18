@@ -10,7 +10,7 @@ use MVC\Router;
 class DetalleVentaServiciosController extends ActiveRecord {
     
     public static function renderizarPagina(Router $router) {
-        $router->render('detalle_venta_servicios/index', []);
+        $router->render('detalle_venta_servicios/index', [] );
     }
 
     // Guardar Detalle de Venta de Servicios
